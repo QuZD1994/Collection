@@ -34,3 +34,5 @@ HashMap的底层实现：数据+链表
   实现过程需构建哈希表
   具体代码实现键collection包中的SxtMap002
         
+HashSet的底层实现是同时HashMap
+  set在add一个元素时底层实现直接是map.put将add的元素作为key,那么它的value为新增的一个对象
