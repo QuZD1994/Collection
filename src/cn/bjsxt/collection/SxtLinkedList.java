@@ -4,116 +4,100 @@ import java.util.LinkedList;
 
 
 public class SxtLinkedList /*implements List*/ {
-	private Node first;
-	private Node last;
-	
-	private int size;
-	
-	public void add(Object obj){
-		Node n = new Node();
-	
-		if(first==null){
-			n.setPrevious(null);
-			n.setObj(obj);
-			n.setNext(null);
-			
-			first = n;
-			last = n;
-		}else{
-			//Ö±½ÓÍùlast½ÚµãºóÔö¼ÓÐÂµÄ½Úµã
-			n.setPrevious(last);
-			n.setObj(obj);
-			n.setNext(null);
-			
-			last.setNext(n);
-			
-			last = n;
-		}
-		size++;
-	}
-	
-	public int size(){
-		return size;
-	}
-	
-	private void rangeCheck(int index){
-		if(index<0||index>=size){
-			try {
-				throw new Exception();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public Object get(int index){   //2
-		rangeCheck(index);
-		
-		// 0 1 2 3 4
-		Node temp = node(index);
-		if(temp!=null){
-			return temp.obj;
-		}
-		return null;
-	}
-	
-	public Node node(int index){
-		Node temp = null;
-		if(first!=null){
-			temp = first;
-			for(int i=0;i<index;i++){
-				temp = temp.next;
-			}
-		}
-		LinkedList l;
-		return temp;
-	}
-	
-	
-	public void remove(int index){
-		Node temp = node(index);
-		
-		if(temp!=null){
-			Node up = temp.previous;
-			Node down = temp.next;
-			up.next = down;
-			down.previous = up;
-			size--;
-		}
-		
-	}
-	
-	public void add(int index,Object obj){
-		Node temp = node(index);
-		
-		Node newNode = new Node();
-		newNode.obj = obj;
-		
-		if(temp!=null){
-			Node up = temp.previous;
-			up.next = newNode;
-			newNode.previous = up;
-			
-			newNode.next = temp;
-			temp.previous = newNode;
-			
-			size++;
-		}
-	}
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		SxtLinkedList list = new SxtLinkedList();
-		list.add("aaa");
-		list.add("bbb");
-		list.add(1,"BBBB");
-		list.add("ccc");
-//		list.remove(1);
-		System.out.println(list.get(1)); 
-	}
-	
+	private Node first;//ç¬¬ä¸€ä¸ªèŠ‚ç‚¹
+    private Node last;//æœ€åŽä¸€ä¸ªèŠ‚ç‚¹
+    private int size;
 
+    public SxtLinkedList() {
+    }
+
+    public void add(Object object){
+        Node node = new Node();
+        if (first == null){
+            node.previous = null;
+            node.object = object;
+            node.next = null;
+            first = node;
+            last = node;
+        } else {//firstä¸ä¸ºç©ºç›´æŽ¥å¾€lastä¸Šé¢åŠ 
+            node.previous = last;
+            node.object = object;
+            node.next = null;
+            last.next = node;
+            last = node;
+        }
+        size++;
+    }
+
+    public int size(){
+        return size;
+    }
+    public void rangeCheck(int index){
+        if (index < 0 || index >= size){
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public Object get(int index){
+        rangeCheck(index);
+        Node temp = node(index);
+        if (temp != null){
+            return temp.object;
+        }
+        return null;
+    }
+
+    public Node node(int index){
+        Node temp = null;
+        if (first != null){
+            temp = first;
+            for (int i = 0; i < index; i++) {
+                temp = temp.next;
+            }
+        }
+        return temp;
+    }
+
+    public void remove(int index){
+        rangeCheck(index);
+        Node temp = node(index);
+        if (temp != null){
+            Node preCur = temp.previous;
+            Node nextCur = temp.next;
+            preCur.next = nextCur;
+            nextCur.previous = preCur;
+            size--;
+        }
+    }
+
+    public void add(int index, Object object){
+        rangeCheck(index);
+        Node node = new Node();
+        node.object = object;
+        Node temp = node(index);
+        if (temp != null){
+            Node preCur = temp.previous;
+            preCur.next = node;
+            node.previous = preCur;
+            node.next = temp;
+            temp.previous = node;
+            size++;
+        }
+    }
+
+    public static void main(String[] args) {
+        SxtLinkedList sxtLinkedList = new SxtLinkedList();
+        sxtLinkedList.add("111");
+        sxtLinkedList.add("222");
+        sxtLinkedList.add("333");
+        sxtLinkedList.remove(1);
+        System.out.println(sxtLinkedList.size());
+        sxtLinkedList.add(1,"222");
+        System.out.println(sxtLinkedList.size());
+        System.out.println(sxtLinkedList.get(1));
+
+    }
 }
